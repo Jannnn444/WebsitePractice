@@ -13,18 +13,20 @@ struct ContentView: View {
             // 1st
             Link("Open Google", destination: URL(string: "https://www.google.com")!)
                 .buttonStyle(.borderedProminent)
+                .padding()
             
-            
-            // 2nd method to do this
+            // 2nd
             Button("Open Apple") {
                 if let url = URL(string: "https://www.apple.com") {
                     UIApplication.shared.open(url)
                 }
             }
             .buttonStyle(.bordered)
+            .padding()
             
-            // 3rd method to do this
+            // 3rd
             OpenURLButton()
+               
             
         }
         .padding()
@@ -42,6 +44,7 @@ struct OpenURLButton: View {
         }
         .buttonStyle(.borderedProminent)
         .tint(.purple)
+        .padding()
     }
 }
 
