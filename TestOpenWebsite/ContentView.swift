@@ -6,12 +6,32 @@
 //
 
 import SwiftUI
+import WebKit
+import SafariServices
 
 struct ContentView: View {
+    @State private var showWebView = false
+    @State private var showSafari = false
+    
     var body: some View {
         VStack {
+            Button("Open Website in App") {
+                        showSafari = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .sheet(isPresented: $showSafari) {
+                        SafariView(url: URL(string: "https://localrec.hualiteq.com/client-recording")!)
+                    }
+            
+            Button("Open Website") {
+                showWebView = true
+            }
+            .sheet(isPresented: $showWebView) {
+                WebView(url: URL(string: "https://localrec.hualiteq.com/client-recording")!)
+            }
+            
             // 1st
-            Link("Open Google", destination: URL(string: "https://www.google.com")!)
+            Link("Open Nginx", destination: URL(string: "https://localrec.hualiteq.com/client-recording")!)
                 .buttonStyle(.borderedProminent)
                 .padding()
             
@@ -33,6 +53,16 @@ struct ContentView: View {
     }
 }
 
+struct SafariView: UIViewControllerRepresentable {
+    let url: URL
+    
+    func makeUIViewController(context: Context) -> SFSafariViewController {
+        return SFSafariViewController(url: url)
+    }
+    
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {}
+}
+
 struct OpenURLButton: View {
     @Environment(\.openURL) var openURL
     
@@ -46,6 +76,20 @@ struct OpenURLButton: View {
         .tint(.purple)
         .padding()
     }
+}
+
+struct  WebView: UIViewRepresentable {
+    let url: URL
+    
+    func makeUIView(context: Context) -> WKWebView {
+        return WKWebView()
+    }
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        uiView.load(request)
+    }
+    
 }
 
 #Preview {
